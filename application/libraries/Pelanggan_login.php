@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User_login
+class Pelanggan_login
 {
 
 	protected $ci;
@@ -15,7 +15,7 @@ class User_login
 
 	public function login($username, $password)
 	{
-		$cek = $this->ci->m_auth->user_login($username, $password);
+		$cek = $this->ci->m_auth->login_pelanggan($username, $password);
 		if ($cek) {
 			$id_user = $cek->id_user;
 			$nama_lengkap = $cek->nama_lengkap;
@@ -36,10 +36,8 @@ class User_login
 
 			if ($level_user == 'pengelola') {
 				redirect('admin');
-			} elseif ($level_user == 'kepala') {
-				redirect('kepala');
 			} else {
-				redirect('home');
+				redirect('bumdes');
 			}
 		} else {
 			$this->ci->session->set_flashdata('error', 'Username Atau Password Salah');
@@ -51,7 +49,7 @@ class User_login
 	{
 		if ($this->ci->session->userdata('username') == '') {
 			$this->ci->session->set_flashdata('error', 'Anda Belum Login');
-			redirect('auth/login_user');
+			redirect('auth/user_login');
 		}
 	}
 
@@ -65,6 +63,6 @@ class User_login
 		$this->ci->session->unset_userdata('password');
 		$this->ci->session->unset_userdata('level_user');
 		$this->ci->session->set_flashdata('pesan', 'Berhasil LogOut!!!!');
-		redirect('auth/login_user');
+		redirect('auth/user_login');
 	}
 }
